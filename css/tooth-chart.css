@@ -1,0 +1,807 @@
+/* ==========================================================================
+   VélourCare Ortho — Anatomical Tooth Chart, IPR & Clinical Features CSS
+   ========================================================================== */
+
+.arch-visual-container {
+    background: #FFFFFF;
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.arch-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.arch-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-slate-900);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.arch-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    background: var(--color-brand-100);
+    color: var(--color-brand-800);
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.arch-orientation-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-slate-500);
+    margin-bottom: 8px;
+    padding: 0 10px;
+}
+
+/* Scroll wrapper for high-res tooth strip */
+.teeth-strip-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    padding: 12px 0 20px 0;
+    scrollbar-width: thin;
+}
+
+.teeth-strip-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.teeth-strip-wrapper::-webkit-scrollbar-thumb {
+    background: var(--color-brand-300);
+    border-radius: 3px;
+}
+
+.teeth-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 940px;
+    position: relative;
+    padding: 10px 0;
+}
+
+/* Individual Tooth Unit */
+.tooth-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.tooth-unit:hover {
+    transform: translateY(-4px);
+    background: rgba(184, 155, 105, 0.06);
+}
+
+.tooth-number-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-slate-700);
+    margin-bottom: 4px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--color-slate-100);
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tooth-unit:hover .tooth-number-tag {
+    background: var(--color-brand-500);
+    color: #FFFFFF;
+}
+
+/* Tooth Feature Pills under tooth */
+.tooth-feature-pills-row {
+    display: flex;
+    gap: 2px;
+    margin-top: 4px;
+    min-height: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.badge-mini {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.badge-att {
+    background: #FEF3C7;
+    color: #92400E;
+    border: 1px solid #FCD34D;
+}
+
+.badge-pp {
+    background: #E0F2FE;
+    color: #0369A1;
+    border: 1px solid #BAE6FD;
+}
+
+.badge-btn {
+    background: #EDE9FE;
+    color: #6D28D9;
+    border: 1px solid #DDD6FE;
+}
+
+.badge-ramp {
+    background: #CCFBF1;
+    color: #0F766E;
+    border: 1px solid #99F6E4;
+}
+
+.pill-empty {
+    color: #CBD5E1;
+    font-size: 0.8rem;
+    line-height: 1;
+}
+
+/* Tooth SVG Box */
+.tooth-svg-box {
+    width: 46px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.tooth-svg-box.molar { width: 54px; }
+.tooth-svg-box.premolar { width: 44px; }
+.tooth-svg-box.canine { width: 38px; }
+.tooth-svg-box.central { width: 42px; }
+.tooth-svg-box.lateral { width: 36px; }
+
+/* Maxillary (Upper Arch) Central Incisors - Big & Prominent */
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="11"],
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="21"] {
+    min-width: 58px;
+}
+
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="11"] .tooth-svg-box,
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="21"] .tooth-svg-box {
+    width: 58px;
+    height: 84px;
+}
+
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="11"] .tooth-svg-box svg,
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="21"] .tooth-svg-box svg {
+    transform: scale(1.12);
+}
+
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="11"] .tooth-number-tag,
+.teeth-row[data-arch="upper"] .tooth-unit[data-fdi="21"] .tooth-number-tag {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--color-brand-600);
+}
+
+.tooth-svg-box svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 2px 5px rgba(30, 37, 43, 0.08));
+    transition: filter 0.2s ease;
+}
+
+.tooth-unit:hover .tooth-svg-box svg {
+    filter: drop-shadow(0 4px 10px rgba(184, 155, 105, 0.4));
+}
+
+/* Tooth Anatomy Path Styling */
+.tooth-body-path {
+    stroke: #8C7D6B;
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: all 0.25s ease;
+}
+
+.tooth-unit:hover .tooth-body-path {
+    stroke: var(--color-brand-600);
+}
+
+.tooth-unit.has-attachment .tooth-body-path {
+    stroke: #2563EB;
+    stroke-width: 1.5;
+}
+
+.tooth-unit.has-pp .tooth-body-path {
+    stroke: #0284C7;
+}
+
+.tooth-unit.has-btn .tooth-body-path {
+    stroke: #7C3AED;
+}
+
+/* 3D Beveled Attachment Brick */
+.attachment-3d-glyph {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    transition: transform 0.2s ease, filter 0.2s ease;
+    transform-origin: center;
+}
+
+.tooth-unit:hover .attachment-3d-glyph {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 6px #60A5FA);
+}
+
+@media print {
+    .attachment-3d-glyph {
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35)) !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}
+
+/* Tooth Root & Crown Image */
+.tooth-root-image {
+    transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.tooth-unit:hover .tooth-root-image {
+    filter: drop-shadow(0 2px 8px rgba(184, 155, 105, 0.6)) brightness(1.04);
+}
+
+.tooth-unit.has-attachment .tooth-root-image {
+    filter: drop-shadow(0 1px 4px rgba(37, 99, 235, 0.4));
+}
+
+/* IPR Contact Slot */
+.ipr-contact-slot {
+    position: relative;
+    width: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.ipr-contact-slot:hover .ipr-trigger-btn {
+    transform: scale(1.15);
+    background: var(--color-brand-500);
+    color: #FFFFFF;
+}
+
+.ipr-trigger-btn {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #E5E0D6;
+    border: 1.5px solid #FFFFFF;
+    color: #61686E;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+}
+
+.ipr-contact-slot.active .ipr-trigger-btn {
+    background: #D97706;
+    color: #FFFFFF;
+    box-shadow: 0 0 8px rgba(217, 119, 6, 0.5);
+}
+
+.ipr-contact-slot.heavy .ipr-trigger-btn {
+    background: #DC2626;
+    color: #FFFFFF;
+}
+
+/* Interactive Arch IPR Cutting Bar & Tray Mention Tags */
+.ipr-contact-slot.active {
+    width: 26px;
+}
+
+.ipr-point-tag-top {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: #92400E;
+    background: #FEF3C7;
+    border: 1.2px solid #F59E0B;
+    border-radius: 3px;
+    padding: 1.5px 4px;
+    line-height: 1;
+    white-space: nowrap;
+    margin-bottom: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.02em;
+}
+
+.ipr-cutting-bar {
+    width: 3px;
+    height: 40px;
+    background: #D97706;
+    border-radius: 1.5px;
+    box-shadow: 0 0 5px rgba(217, 119, 6, 0.6);
+    margin: 2px 0;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ipr-contact-slot:hover .ipr-cutting-bar {
+    background: #B45309;
+    transform: scaleY(1.08);
+}
+
+.ipr-contact-slot.heavy .ipr-cutting-bar {
+    background: #DC2626;
+    box-shadow: 0 0 5px rgba(220, 38, 38, 0.6);
+}
+
+.ipr-amount-tag-bottom {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #B45309;
+    background: #FFFBEB;
+    border: 1px solid #FCD34D;
+    padding: 1px 4px;
+    border-radius: 3px;
+    line-height: 1;
+    white-space: nowrap;
+    margin-top: 3px;
+}
+
+.ipr-preset-btn {
+    transition: all 0.2s ease;
+    font-family: var(--font-mono);
+    font-weight: 600;
+}
+
+.ipr-preset-btn.active {
+    background: var(--color-brand-600) !important;
+    color: #FFFFFF !important;
+    border-color: var(--color-brand-700) !important;
+    box-shadow: 0 0 0 2px rgba(184, 155, 105, 0.35) !important;
+}
+
+.ipr-stage-preset-btn {
+    transition: all 0.2s ease;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.72rem;
+    padding: 3px 8px;
+}
+
+.ipr-stage-preset-btn.active {
+    background: var(--color-brand-600) !important;
+    color: #FFFFFF !important;
+    border-color: var(--color-brand-700) !important;
+    box-shadow: 0 0 0 2px rgba(184, 155, 105, 0.35) !important;
+}
+
+.ipr-value-display {
+    position: absolute;
+    bottom: -28px;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    pointer-events: none;
+}
+
+.ipr-amount-pill {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    background: #FFFBEB;
+    color: #B45309;
+    border: 1px solid #FCD34D;
+    padding: 1px 5px;
+    border-radius: 4px;
+    line-height: 1.2;
+}
+
+.ipr-stage-pill {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: #4A5158;
+    margin-top: 1px;
+}
+
+.arch-midline-indicator {
+    width: 2px;
+    height: 74px;
+    background: linear-gradient(to bottom, transparent, var(--color-brand-400), transparent);
+    margin: 0 4px;
+    position: relative;
+    border-radius: 1px;
+}
+
+.arch-midline-indicator::before {
+    content: "MIDLINE";
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.56rem;
+    letter-spacing: 0.1em;
+    color: var(--color-brand-600);
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   Report Page 1: Overview Dual Arch & Legend Styles
+   ========================================================================== */
+.overview-dual-arch-container {
+    background: #FCFBF8;
+    border: 1.5px solid #E5E0D6;
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0 18px 0;
+}
+
+.overview-arch-labels {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: #4A5158;
+    margin-bottom: 10px;
+    padding: 0 6px;
+}
+
+.overview-arch-block {
+    margin: 4px 0;
+}
+
+.overview-arch-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: #816838;
+    margin-bottom: 4px;
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+.arch-horizontal-divider {
+    height: 1.5px;
+    background: linear-gradient(to right, transparent, #B89B69 20%, #B89B69 80%, transparent);
+    margin: 10px 0;
+}
+
+.report-arch-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: #141E2E;
+    border: 1px solid #1E293B;
+    border-radius: 8px;
+    padding: 8px 4px;
+    margin: 4px 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.report-tooth-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 32px;
+    margin: 0 1px;
+}
+
+.report-palmer-num {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #94A3B8;
+    margin-bottom: 2px;
+}
+
+.report-tooth-svg-wrap {
+    width: 30px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+
+.report-tooth-svg-wrap svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Maxillary (Upper Arch) Central Incisors in Report */
+.report-arch-row .report-tooth-box.upper[data-fdi="11"],
+.report-arch-row .report-tooth-box.upper[data-fdi="21"] {
+    width: 42px;
+}
+
+.report-arch-row .report-tooth-box.upper[data-fdi="11"] .report-tooth-svg-wrap,
+.report-arch-row .report-tooth-box.upper[data-fdi="21"] .report-tooth-svg-wrap {
+    width: 40px;
+    height: 56px;
+}
+
+.report-arch-row .report-tooth-box.upper[data-fdi="11"] .report-palmer-num,
+.report-arch-row .report-tooth-box.upper[data-fdi="21"] .report-palmer-num {
+    font-size: 0.82rem;
+    font-weight: 800;
+    color: #FBBF24;
+}
+
+.report-badge-strip {
+    display: flex;
+    gap: 2px;
+    min-height: 12px;
+    margin-top: 2px;
+}
+
+.report-badge-att {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: #92400E;
+    background: #FEF3C7;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.report-badge-pp {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: #0369A1;
+    background: #E0F2FE;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.report-badge-btn {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: #6D28D9;
+    background: #EDE9FE;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.report-badge-ramp {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+    font-weight: 700;
+    color: #0F766E;
+    background: #CCFBF1;
+    padding: 0 2px;
+    border-radius: 2px;
+}
+
+.report-ipr-slot {
+    width: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 1.5px;
+    z-index: 5;
+}
+
+.report-ipr-stage-tag {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #FEF08A;
+    background: rgba(133, 77, 14, 0.95);
+    border: 1.2px solid #F59E0B;
+    padding: 1.5px 3.5px;
+    border-radius: 3px;
+    line-height: 1;
+    white-space: nowrap;
+    margin-bottom: 2px;
+    letter-spacing: 0.02em;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.report-ipr-bar {
+    width: 2.5px;
+    height: 32px;
+    background: #F59E0B;
+    border-radius: 1px;
+    box-shadow: 0 0 3px rgba(245, 158, 11, 0.6);
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.report-ipr-val {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    font-weight: 800;
+    color: #FCD34D;
+    line-height: 1;
+    margin-top: 2px;
+    white-space: nowrap;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+}
+
+.report-midline-line {
+    width: 1.5px;
+    height: 56px;
+    background: #F59E0B;
+    opacity: 0.7;
+    margin: 0 3px;
+}
+
+/* Feature Legend Grid */
+.overview-features-legend {
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px dashed #D1CBBE;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.78rem;
+}
+
+.legend-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    line-height: 1.35;
+}
+
+.legend-label {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #1E252B;
+    min-width: 160px;
+    flex-shrink: 0;
+}
+
+.legend-content {
+    color: #4A5158;
+}
+
+/* Tooth Clinical Features Modal */
+.feature-select-card {
+    background: var(--color-slate-50);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+}
+
+.feature-check-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: var(--color-slate-900);
+    cursor: pointer;
+    font-size: 0.88rem;
+}
+
+.feature-suboptions {
+    margin-top: 10px;
+    padding-left: 26px;
+}
+
+/* Print Optimization for Overview Dual Arch */
+@media print {
+    .overview-dual-arch-container {
+        padding: 8px 12px !important;
+        margin: 6px 0 10px 0 !important;
+        background: #FCFBF8 !important;
+        border-color: #CBD5E1 !important;
+    }
+    .report-arch-row {
+        background: #141E2E !important;
+        border: 1px solid #1E293B !important;
+        border-radius: 6px !important;
+        padding: 6px 2px !important;
+        margin: 3px 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .report-tooth-box {
+        width: 28px !important;
+        margin: 0 1px !important;
+    }
+    .report-tooth-svg-wrap {
+        width: 26px !important;
+        height: 42px !important;
+        filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45)) !important;
+    }
+    .report-arch-row .report-tooth-box.upper[data-fdi="11"],
+    .report-arch-row .report-tooth-box.upper[data-fdi="21"] {
+        width: 38px !important;
+    }
+    .report-arch-row .report-tooth-box.upper[data-fdi="11"] .report-tooth-svg-wrap,
+    .report-arch-row .report-tooth-box.upper[data-fdi="21"] .report-tooth-svg-wrap {
+        width: 36px !important;
+        height: 50px !important;
+    }
+    .report-palmer-num {
+        font-size: 0.65rem !important;
+        color: #94A3B8 !important;
+    }
+    .report-arch-row .report-tooth-box.upper[data-fdi="11"] .report-palmer-num,
+    .report-arch-row .report-tooth-box.upper[data-fdi="21"] .report-palmer-num {
+        color: #FBBF24 !important;
+        font-size: 0.74rem !important;
+    }
+    .report-ipr-slot {
+        width: 16px !important;
+    }
+    .report-ipr-stage-tag {
+        font-size: 0.68rem !important;
+        padding: 1px 3px !important;
+        font-weight: 800 !important;
+        color: #FEF08A !important;
+        background: #854D0E !important;
+        border: 1.2px solid #F59E0B !important;
+        border-radius: 2.5px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .report-ipr-bar {
+        width: 2.5px !important;
+        height: 28px !important;
+        background: #F59E0B !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .report-ipr-val {
+        font-size: 0.58rem !important;
+        font-weight: 800 !important;
+        color: #FCD34D !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .report-midline-line {
+        height: 48px !important;
+        background: #F59E0B !important;
+    }
+    .overview-features-legend {
+        margin-top: 8px !important;
+        padding-top: 6px !important;
+        font-size: 0.7rem !important;
+        gap: 4px !important;
+    }
+    .legend-row {
+        gap: 6px !important;
+    }
+}

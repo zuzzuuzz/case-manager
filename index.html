@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VélourCare Ortho — Clinical Case Report Manager</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    
+    <!-- Google Fonts: Playfair Display, Inter, JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Application Stylesheets -->
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/tooth-chart.css">
+    <link rel="stylesheet" href="css/case-report.css">
+</head>
+<body>
+
+    <!-- TOP APPLICATION HEADER -->
+    <header class="app-header">
+        <div class="header-inner">
+            <div class="brand-wrapper" id="nav-brand-home">
+                <img src="assets/logo-emblem.png" alt="VélourCare Ortho Crest" class="brand-emblem">
+                <div>
+                    <div class="brand-title">VÉLOURCARE</div>
+                    <div class="brand-subtitle">Clinical Case Manager</div>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="tunnel-badge" id="tunnel-badge" title="Click to copy live team sharing link">
+                    <span class="tunnel-dot connecting" id="tunnel-dot"></span>
+                    <span id="tunnel-label">Local Mode</span>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="btn-header-dashboard">Cases</button>
+                <button class="btn btn-primary btn-sm" id="btn-header-new">+ New Case</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="app-container">
+
+        <!-- ===================================================================
+             VIEW 1: DASHBOARD
+             =================================================================== -->
+        <section class="view-section active" id="view-dashboard">
+            <div class="dashboard-header">
+                <div class="dashboard-title-box">
+                    <h1>Clinical Cases</h1>
+                    <p>Track, manage, and generate doctor-supervised clear aligner case reports</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="btn-dashboard-new">
+                        <span>+</span> Create New Case
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-label">Total Cases</div>
+                        <div class="stat-value" id="stat-total-cases">0</div>
+                    </div>
+                    <div class="stat-icon-wrap">📋</div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-label">Completed Reports</div>
+                        <div class="stat-value" id="stat-complete-cases">0</div>
+                    </div>
+                    <div class="stat-icon-wrap">✓</div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-label">Draft Protocols</div>
+                        <div class="stat-value" id="stat-draft-cases">0</div>
+                    </div>
+                    <div class="stat-icon-wrap">✎</div>
+                </div>
+                <div class="stat-card">
+                    <div>
+                        <div class="stat-label">Total Aligners Staged</div>
+                        <div class="stat-value" id="stat-total-aligners">0</div>
+                    </div>
+                    <div class="stat-icon-wrap">🦷</div>
+                </div>
+            </div>
+
+            <!-- Search & Filter Toolbar -->
+            <div class="toolbar-wrap">
+                <div class="search-box">
+                    <span>🔍</span>
+                    <input type="text" id="dashboard-search" placeholder="Search by patient, clinic, or case # (e.g. WA-026)...">
+                </div>
+                <div class="filter-pills">
+                    <button class="filter-pill active" data-filter="all">All Cases</button>
+                    <button class="filter-pill" data-filter="complete">Completed</button>
+                    <button class="filter-pill" data-filter="draft">Drafts</button>
+                </div>
+            </div>
+
+            <!-- Cases Grid -->
+            <div class="cases-grid" id="cases-grid-container">
+                <!-- Dynamically populated by JS -->
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             VIEW 2: CASE EDITOR / WIZARD
+             =================================================================== -->
+        <section class="view-section" id="view-editor">
+            <div class="editor-container">
+                <!-- Editor Top Bar -->
+                <div class="editor-header">
+                    <div class="editor-title">
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span class="case-card-num" id="editor-case-badge">WA-026</span>
+                            <h2 id="editor-title-name">Edit Case Protocol</h2>
+                        </div>
+                        <p id="editor-subtitle">Modify patient biomechanical prescription and tooth movements</p>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn btn-secondary btn-sm" id="btn-editor-cancel">Cancel</button>
+                        <button class="btn btn-secondary btn-sm" id="btn-editor-preview-pdf">📄 Print / PDF</button>
+                        <button class="btn btn-primary btn-sm" id="btn-editor-save">💾 Save Case</button>
+                    </div>
+                </div>
+
+                <!-- Wizard Navigation Tabs -->
+                <div class="wizard-nav">
+                    <div class="wizard-tab active" data-step="1">
+                        <span class="tab-badge">1</span> Patient & Clinic
+                    </div>
+                    <div class="wizard-tab" data-step="2">
+                        <span class="tab-badge">2</span> Prescription & Aligners
+                    </div>
+                    <div class="wizard-tab" data-step="3">
+                        <span class="tab-badge">3</span> IPR Movement Pics
+                    </div>
+                    <div class="wizard-tab" data-step="4">
+                        <span class="tab-badge">4</span> Visual IPR Chart
+                    </div>
+                    <div class="wizard-tab" data-step="5">
+                        <span class="tab-badge">5</span> Smile Summary Photos
+                    </div>
+                </div>
+
+                <div class="wizard-content">
+
+                    <!-- STEP 1: PATIENT & CLINIC -->
+                    <div class="wizard-step active" id="step-1">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Case Number *</label>
+                                <input type="text" id="case-field-num" placeholder="e.g. WA-026" required>
+                                <span class="hint">Unique sequential identifier</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Patient Full Name *</label>
+                                <input type="text" id="case-field-patient" placeholder="e.g. Tasbeeha" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Clinic / Doctor *</label>
+                                <input type="text" id="case-field-clinic" placeholder="e.g. While Aligners">
+                            </div>
+                            <div class="form-group">
+                                <label>Protocol Date</label>
+                                <input type="date" id="case-field-date">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="case-field-status">
+                                    <option value="draft">Draft Protocol</option>
+                                    <option value="complete">Completed / Approved</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Clinical Notes / Doctor Instructions</label>
+                            <textarea id="case-field-notes" rows="3" placeholder="Enter clinical details, instructions, or staging notes..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: PRESCRIPTION & ALIGNERS -->
+                    <div class="wizard-step" id="step-2">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Upper Aligners Count (#)</label>
+                                <input type="number" id="case-field-upper-aligners" min="0" max="60" value="7">
+                            </div>
+                            <div class="form-group">
+                                <label>Lower Aligners Count (#)</label>
+                                <input type="number" id="case-field-lower-aligners" min="0" max="60" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Wear Days Per Aligner</label>
+                                <input type="number" id="case-field-wear-days" min="1" max="21" value="10">
+                                <span class="hint">Standard is 10 days</span>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Est. Treatment Time (Upper Days)</label>
+                                <input type="number" id="case-field-upper-days" placeholder="Auto-calculated (e.g. 70)">
+                            </div>
+                            <div class="form-group">
+                                <label>Est. Treatment Time (Lower Days)</label>
+                                <input type="number" id="case-field-lower-days" placeholder="Auto-calculated (e.g. 100)">
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Elastic Type</label>
+                                <input type="text" id="case-field-elastic-type" placeholder="e.g. Class II / Anterior">
+                            </div>
+                            <div class="form-group">
+                                <label>Elastic Size / Force</label>
+                                <input type="text" id="case-field-elastic-size" placeholder="e.g. 3/16 inch Medium (4.5 oz)">
+                            </div>
+                            <div class="form-group">
+                                <label>Upper Arch P.P</label>
+                                <input type="text" id="case-field-pp-upper" placeholder="e.g. 1-7">
+                            </div>
+                            <div class="form-group">
+                                <label>Lower Arch P.P</label>
+                                <input type="text" id="case-field-pp-lower" placeholder="e.g. 1-7">
+                            </div>
+                        </div>
+
+                        <!-- Interactive Dental Arch: Attachments, Powers, Buttons & IPR -->
+                        <div style="margin-top:24px; padding-top:20px; border-top:1px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+                                <div>
+                                    <h4 style="font-family:var(--font-display); font-size:1.15rem; color:var(--color-slate-900);">Clinical Arch Architecture: Attachments, Powers, Buttons & IPR</h4>
+                                    <p style="font-size:0.82rem; color:var(--text-muted);">
+                                        Click on any <strong>Tooth</strong> to configure 🧲 Attachments, ⚡ Power Points (P.P), 🔘 Buttons, or 📐 Bite Ramps.
+                                        Click between teeth to assign <strong>✂ IPR</strong>.
+                                    </p>
+                                </div>
+                                <div style="display:flex; gap:6px;">
+                                    <button type="button" class="btn btn-secondary btn-sm" id="btn-quick-pp-upper">⚡ Set Upper P.P 1-7</button>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="btn-quick-pp-lower">⚡ Set Lower P.P 1-7</button>
+                                </div>
+                            </div>
+
+                            <div class="arch-visual-container" style="margin-bottom:14px;">
+                                <div class="arch-header">
+                                    <div class="arch-title">
+                                        <span>Upper Arch (18 .. 28)</span>
+                                        <span class="arch-badge">Maxillary</span>
+                                    </div>
+                                    <div class="arch-orientation-labels">
+                                        <span>PATIENT RIGHT</span>
+                                        <span>PATIENT LEFT</span>
+                                    </div>
+                                </div>
+                                <div class="teeth-strip-wrapper">
+                                    <div id="step2-upper-arch-container"></div>
+                                </div>
+                            </div>
+
+                            <div class="arch-visual-container">
+                                <div class="arch-header">
+                                    <div class="arch-title">
+                                        <span>Lower Arch (48 .. 38)</span>
+                                        <span class="arch-badge">Mandibular</span>
+                                    </div>
+                                    <div class="arch-orientation-labels">
+                                        <span>PATIENT RIGHT</span>
+                                        <span>PATIENT LEFT</span>
+                                    </div>
+                                </div>
+                                <div class="teeth-strip-wrapper">
+                                    <div id="step2-lower-arch-container"></div>
+                                </div>
+                            </div>
+
+                            <!-- Live Summary of Assigned Features -->
+                            <div id="step2-arch-legend-container" style="margin-top:12px;"></div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: IPR MOVEMENT SCANS / PIC SECTION -->
+                    <div class="wizard-step" id="step-3">
+                        <div style="margin-bottom:16px;">
+                            <h3 style="font-family:var(--font-display); font-size:1.15rem; color:var(--color-slate-900);">IPR & Movement Chart Scans</h3>
+                            <p style="font-size:0.82rem; color:var(--text-muted);">Drag and drop your IPR movement chart pictures, staging sheets, or simulation scans directly here. These pictures will appear in Page 3 of the printed case report.</p>
+                        </div>
+
+                        <div class="smile-upload-grid">
+                            <!-- Picture 1: Upper Arch / Movement Chart -->
+                            <div>
+                                <h4 style="font-family:var(--font-display); margin-bottom:8px;">Movement Chart Image 1 (Upper Arch / Main Sheet)</h4>
+                                <div class="upload-card" id="dropzone-movement-1">
+                                    <input type="file" id="file-input-movement-1" accept="image/*" style="display:none;">
+                                    <div id="preview-box-movement-1" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                                        <div style="font-size:2.5rem; color:var(--color-brand-400); margin-bottom:8px;">📊</div>
+                                        <div style="font-weight:600; font-size:0.9rem;">Click or drag IPR movement chart pic here</div>
+                                        <div class="upload-hint">PNG, JPG, WEBP up to 15MB</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Picture 2: Lower Arch / IPR Stripping Sheet -->
+                            <div>
+                                <h4 style="font-family:var(--font-display); margin-bottom:8px;">Movement Chart Image 2 (Lower Arch / IPR Staging)</h4>
+                                <div class="upload-card" id="dropzone-movement-2">
+                                    <input type="file" id="file-input-movement-2" accept="image/*" style="display:none;">
+                                    <div id="preview-box-movement-2" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                                        <div style="font-size:2.5rem; color:var(--color-brand-400); margin-bottom:8px;">📐</div>
+                                        <div style="font-weight:600; font-size:0.9rem;">Click or drag second movement / IPR pic here</div>
+                                        <div class="upload-hint">Optional • PNG, JPG, WEBP</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: VISUAL IPR CHART -->
+                    <div class="wizard-step" id="step-4">
+                        <div style="margin-bottom:16px;">
+                            <h3 style="font-family:var(--font-display); font-size:1.15rem; color:var(--color-slate-900);">Anatomical IPR & Tooth Architecture</h3>
+                            <p style="font-size:0.82rem; color:var(--text-muted);">Click between teeth to assign interproximal reduction (mm) and staging. Realistic tooth anatomy shows realistic crown morphologies (molars, bicuspids, canines, incisors).</p>
+                        </div>
+
+                        <!-- Upper Arch Visual -->
+                        <div class="arch-visual-container">
+                            <div class="arch-header">
+                                <div class="arch-title">
+                                    <span>Upper Arch</span>
+                                    <span class="arch-badge">Maxillary</span>
+                                </div>
+                                <div class="arch-orientation-labels">
+                                    <span>PATIENT RIGHT</span>
+                                    <span>PATIENT LEFT</span>
+                                </div>
+                            </div>
+                            <div class="teeth-strip-wrapper">
+                                <div id="upper-tooth-chart-container"></div>
+                            </div>
+                        </div>
+
+                        <!-- Lower Arch Visual -->
+                        <div class="arch-visual-container">
+                            <div class="arch-header">
+                                <div class="arch-title">
+                                    <span>Lower Arch</span>
+                                    <span class="arch-badge">Mandibular</span>
+                                </div>
+                                <div class="arch-orientation-labels">
+                                    <span>PATIENT RIGHT</span>
+                                    <span>PATIENT LEFT</span>
+                                </div>
+                            </div>
+                            <div class="teeth-strip-wrapper">
+                                <div id="lower-tooth-chart-container"></div>
+                            </div>
+                        </div>
+
+                        <!-- IPR Protocol Summary -->
+                        <div id="ipr-summary-container"></div>
+                    </div>
+
+                    <!-- STEP 5: SMILE SUMMARY PHOTOS -->
+                    <div class="wizard-step" id="step-5">
+                        <div style="margin-bottom:16px;">
+                            <h3 style="font-family:var(--font-display); font-size:1.15rem; color:var(--color-slate-900);">Smile Summary — Digital Simulation</h3>
+                            <p style="font-size:0.82rem; color:var(--text-muted);">Upload or drag-and-drop the patient's initial malocclusion and projected outcome photos.</p>
+                        </div>
+
+                        <div class="smile-upload-grid">
+                            <!-- Initial Position -->
+                            <div>
+                                <h4 style="font-family:var(--font-display); margin-bottom:8px;">Initial Position</h4>
+                                <div class="upload-card" id="dropzone-initial">
+                                    <input type="file" id="file-input-initial" accept="image/*" style="display:none;">
+                                    <div id="preview-box-initial" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                                        <div style="font-size:2.5rem; color:var(--color-brand-400); margin-bottom:8px;">📷</div>
+                                        <div style="font-weight:600; font-size:0.9rem;">Click or drag photo here</div>
+                                        <div class="upload-hint">PNG, JPG, WEBP up to 10MB</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Final Position -->
+                            <div>
+                                <h4 style="font-family:var(--font-display); margin-bottom:8px;">Final Position (Projected Result)</h4>
+                                <div class="upload-card" id="dropzone-final">
+                                    <input type="file" id="file-input-final" accept="image/*" style="display:none;">
+                                    <div id="preview-box-final" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+                                        <div style="font-size:2.5rem; color:var(--color-brand-400); margin-bottom:8px;">✨</div>
+                                        <div style="font-weight:600; font-size:0.9rem;">Click or drag simulated outcome here</div>
+                                        <div class="upload-hint">PNG, JPG, WEBP up to 10MB</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ===================================================================
+             VIEW 3: PRINT / PDF PREVIEW
+             =================================================================== -->
+        <section class="view-section" id="view-report">
+            <div class="no-print" style="max-width:960px; margin:0 auto 20px auto; display:flex; justify-content:space-between; align-items:center; background:#1E252B; color:#FFFFFF; padding:12px 20px; border-radius:10px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="font-family:var(--font-display); font-size:1.1rem; color:#B89B69;">Case Report Preview</span>
+                    <span style="font-size:0.75rem; color:#EDE5D0;">(Standard A4 3-Page Format)</span>
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button class="btn btn-secondary btn-sm" id="btn-report-back">← Back to Editor</button>
+                    <button class="btn btn-primary btn-sm" id="btn-report-print">🖨️ Print / Save as PDF</button>
+                </div>
+            </div>
+
+            <!-- Report Document Render Container -->
+            <div id="report-render-target"></div>
+        </section>
+
+    </div>
+
+
+    <!-- ===================================================================
+         IPR CONFIGURATION MODAL
+         =================================================================== -->
+    <div class="modal-backdrop" id="ipr-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="ipr-modal-contact-title">Configure IPR</h3>
+                <button type="button" class="btn btn-icon btn-dark" id="btn-modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label>Reduction Amount (mm)</label>
+                    <div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.1">0.1 mm</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.2">0.2 mm</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.25">0.25 mm</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.3">0.3 mm</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.4">0.4 mm</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-preset-btn" data-mm="0.5">0.5 mm</button>
+                    </div>
+                    <input type="number" id="ipr-modal-amount" step="0.05" min="0" max="1.5" value="0.2">
+                    <span class="hint">Recommended clinical limit per contact: 0.5 mm</span>
+                </div>
+
+                <div class="form-group">
+                    <label>Application Timing / Point of IPR</label>
+                    <div style="display:flex; gap:5px; margin-bottom:8px; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Before Tray 1">Before Tray 1</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 2">Tray 2</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 3">Tray 3</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 4">Tray 4</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 5">Tray 5</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 6">Tray 6</button>
+                        <button type="button" class="btn btn-secondary btn-sm ipr-stage-preset-btn" data-stage="Tray 7">Tray 7</button>
+                    </div>
+                    <select id="ipr-modal-stage">
+                        <option value="Before Tray 1">Before Tray 1 (Initial / Prior to Aligner 1)</option>
+                        <option value="Tray 2">Tray 2 (At change to Aligner 2)</option>
+                        <option value="Tray 3">Tray 3 (At change to Aligner 3)</option>
+                        <option value="Tray 4">Tray 4 (At change to Aligner 4)</option>
+                        <option value="Tray 5">Tray 5 (At change to Aligner 5)</option>
+                        <option value="Tray 6">Tray 6 (At change to Aligner 6)</option>
+                        <option value="Tray 7">Tray 7 (At change to Aligner 7)</option>
+                        <option value="Tray 8">Tray 8 (At change to Aligner 8)</option>
+                        <option value="Tray 9">Tray 9 (At change to Aligner 9)</option>
+                        <option value="Tray 10">Tray 10 (At change to Aligner 10)</option>
+                        <option value="Stage 1">Stage 1</option>
+                        <option value="Stage 2">Stage 2</option>
+                        <option value="Stage 3">Stage 3</option>
+                        <option value="Stage 4">Stage 4</option>
+                        <option value="Stage 5">Stage 5</option>
+                        <option value="Stage 6">Stage 6</option>
+                        <option value="Stage 7">Stage 7</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" id="btn-modal-clear-ipr">Remove IPR</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-modal-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-modal-save-ipr">Apply Protocol</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===================================================================
+         TOOTH CLINICAL FEATURES MODAL (ATTACHMENTS, POWERS, BUTTONS, RAMPS)
+         =================================================================== -->
+    <div class="modal-backdrop" id="tooth-feature-modal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 id="tooth-modal-title">Configure Tooth Features</h3>
+                <button type="button" class="btn btn-icon btn-dark" id="btn-tooth-modal-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="tooth-modal-subtitle" style="font-family:var(--font-mono); font-size:0.85rem; color:var(--color-brand-600); font-weight:700; margin-bottom:14px;"></div>
+
+                <!-- 1. Attachment Option -->
+                <div class="feature-select-card">
+                    <label class="feature-check-label">
+                        <input type="checkbox" id="chk-attachment" style="width:18px;height:18px;accent-color:var(--color-brand-500);">
+                        <span>🧲 Composite Attachment</span>
+                    </label>
+                    <div class="feature-suboptions" id="suboptions-attachment">
+                        <label style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">GEOMETRY / SHAPE</label>
+                        <select id="sel-attachment-type" style="width:100%; margin-top:4px; padding:7px 10px; border-radius:6px; border:1px solid var(--border-color);">
+                            <option value="Vertical Rectangular">Vertical Rectangular (Standard)</option>
+                            <option value="Horizontal Rectangular">Horizontal Rectangular</option>
+                            <option value="Beveled">Beveled (Mesial / Distal)</option>
+                            <option value="Horizontal Ellipsoid">Horizontal Ellipsoid / Oval</option>
+                            <option value="Triangular">Triangular</option>
+                            <option value="Root Control">Root Control / Dual Bevel</option>
+                            <option value="Optimized Rotation">Optimized Rotation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 2. Power Point / Pressure Point (P.P) -->
+                <div class="feature-select-card">
+                    <label class="feature-check-label">
+                        <input type="checkbox" id="chk-power-point" style="width:18px;height:18px;accent-color:#0284C7;">
+                        <span>⚡ Power Point / Pressure Ridge (P.P)</span>
+                    </label>
+                    <div class="feature-suboptions" id="suboptions-power-point">
+                        <label style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">PRESSURE PROTOCOL</label>
+                        <select id="sel-power-point-type" style="width:100%; margin-top:4px; padding:7px 10px; border-radius:6px; border:1px solid var(--border-color);">
+                            <option value="Torque Ridge Protocol">Torque Ridge (Cervical / Labial)</option>
+                            <option value="Lingual Pressure Point">Lingual Pressure Point (Incisor Retraction)</option>
+                            <option value="Root Tip Point">Root Tip Control Point</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 3. Button / Precision Cutout -->
+                <div class="feature-select-card">
+                    <label class="feature-check-label">
+                        <input type="checkbox" id="chk-button" style="width:18px;height:18px;accent-color:#7C3AED;">
+                        <span>🔘 Button / Precision Cutout</span>
+                    </label>
+                    <div class="feature-suboptions" id="suboptions-button">
+                        <label style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">CUTOUT / BUTTON TYPE</label>
+                        <select id="sel-button-type" style="width:100%; margin-top:4px; padding:7px 10px; border-radius:6px; border:1px solid var(--border-color);">
+                            <option value="Aligner Elastic Cutout Hook">Aligner Elastic Cutout Hook</option>
+                            <option value="Metal Button (Bonded)">Metal Button (Bonded to Tooth)</option>
+                            <option value="Composite Button">Composite Button</option>
+                            <option value="Slit Precision Cut">Slit Precision Cut</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 4. Bite Ramp -->
+                <div class="feature-select-card">
+                    <label class="feature-check-label">
+                        <input type="checkbox" id="chk-bite-ramp" style="width:18px;height:18px;accent-color:#0D9488;">
+                        <span>📐 Anterior Bite Ramp</span>
+                    </label>
+                    <div class="feature-suboptions" id="suboptions-bite-ramp">
+                        <span style="font-size:0.75rem; color:var(--text-muted);">Molded lingual ramp for deep bite opening and disocclusion</span>
+                    </div>
+                </div>
+
+                <!-- 5. Tooth Notes -->
+                <div class="form-group" style="margin-top:14px;">
+                    <label style="font-size:0.78rem;">Tooth Staging Notes</label>
+                    <input type="text" id="tooth-modal-notes" placeholder="e.g. Passive tray 1-4, bond button at tray 5">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-sm" id="btn-tooth-modal-clear">Clear Tooth Features</button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-tooth-modal-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-tooth-modal-save">Apply to Tooth</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Toast Notifications Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/tooth-assets.js"></script>
+    <script src="js/tooth-chart.js"></script>
+    <script src="js/movement-table.js"></script>
+    <script src="js/ipr-chart.js"></script>
+    <script src="js/pdf-export.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,493 @@
+/* ==========================================================================
+   VélourCare Ortho — Clinical Case Report & Print / PDF Stylesheet
+   ========================================================================== */
+
+.report-document {
+    background: #FFFFFF;
+    max-width: 960px;
+    margin: 0 auto;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+}
+
+/* Individual Report Page */
+.report-page {
+    background: #FFFFFF;
+    padding: 38px 44px;
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 2px dashed #D1CBBE;
+    min-height: 1120px; /* A4 aspect ratio approximation */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.report-page:last-child {
+    border-bottom: none;
+}
+
+/* Report Header */
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 18px;
+    border-bottom: 2px solid #1E252B;
+    margin-bottom: 20px;
+}
+
+.report-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.report-logo-img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid #B89B69;
+}
+
+.report-brand-text h2 {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #1E252B;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+}
+
+.report-brand-text span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #9A7C4D;
+    font-weight: 600;
+}
+
+.report-meta-box {
+    text-align: right;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.report-case-id {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #B89B69;
+}
+
+.report-patient-name {
+    font-weight: 700;
+    color: #1E252B;
+    font-size: 0.95rem;
+}
+
+.report-clinic-name {
+    color: #61686E;
+}
+
+.report-date {
+    color: #61686E;
+    font-size: 0.78rem;
+}
+
+/* Page Section Titles */
+.report-section-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1E252B;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #E5E0D6;
+    padding-bottom: 6px;
+}
+
+.report-section-title span.tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #816838;
+    background: #F5F0E4;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* Page 1: Arch Diagram (Quadrant Layout matching WA-026) */
+.arch-diagram-box {
+    background: #FCFBF8;
+    border: 1px solid #E5E0D6;
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 18px 0;
+}
+
+.arch-diagram-header {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: #1E252B;
+    margin-bottom: 8px;
+    padding: 0 10px;
+}
+
+.quadrant-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+}
+
+.quadrant-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.35em;
+    color: #303942;
+}
+
+.quadrant-divider-h {
+    width: 80%;
+    height: 1px;
+    background: #B89B69;
+}
+
+.arch-prescriptions {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: #61686E;
+    margin-top: 8px;
+    padding: 0 10px;
+}
+
+/* Aligner Totals & Duration Cards */
+.plan-summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 18px 0;
+}
+
+.plan-summary-card {
+    background: #FCFBF8;
+    border: 1px solid #E5E0D6;
+    border-radius: 8px;
+    padding: 16px 20px;
+}
+
+.plan-card-title {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1E252B;
+    margin-bottom: 8px;
+    border-bottom: 1px solid #EDE8DF;
+    padding-bottom: 4px;
+}
+
+.plan-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 0.85rem;
+    margin-bottom: 4px;
+}
+
+.plan-stat-val {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    color: #9A7C4D;
+    font-size: 1rem;
+}
+
+.compliance-notice {
+    background: #FFFBEB;
+    border-left: 4px solid #D97706;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #92400E;
+    font-weight: 500;
+    border-radius: 0 6px 6px 0;
+    margin-top: 14px;
+}
+
+/* Page 2: Smile Summary (Images) */
+.smile-summary-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+.smile-image-comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 10px 0;
+}
+
+.smile-view-box {
+    background: #F7F5EF;
+    border: 1px solid #E5E0D6;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 380px;
+    justify-content: center;
+    position: relative;
+}
+
+.smile-view-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1E252B;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.smile-view-box img {
+    max-width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.smile-placeholder {
+    color: #9A9590;
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.smile-notes-box {
+    background: #FCFBF8;
+    border: 1px solid #E5E0D6;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-size: 0.84rem;
+    line-height: 1.5;
+    color: #303942;
+}
+
+/* Page 3: Movement Chart & IPR */
+.report-movement-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.65rem;
+    margin-bottom: 16px;
+    table-layout: fixed;
+}
+
+.report-movement-table th,
+.report-movement-table td {
+    border: 1px solid #D1CBBE;
+    padding: 3px 1px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.report-movement-table th {
+    background: #EDE5D0;
+    color: #1E252B;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.report-movement-table td.col-name {
+    text-align: left;
+    padding-left: 6px;
+    font-weight: 600;
+    color: #1E252B;
+    background: #F7F5EF;
+    width: 130px;
+}
+
+.report-movement-table td.pos {
+    color: #0369A1;
+    font-weight: 600;
+}
+.report-movement-table td.neg {
+    color: #B91C1C;
+    font-weight: 600;
+}
+
+/* Page 3: Movement Pictures & Scans Section */
+.movement-pictures-report-container {
+    margin: 10px 0 16px 0;
+}
+
+.movement-images-grid {
+    display: grid;
+    gap: 14px;
+    width: 100%;
+}
+
+.movement-images-grid.single-image {
+    grid-template-columns: 1fr;
+}
+
+.movement-images-grid.dual-image {
+    grid-template-columns: 1fr 1fr;
+}
+
+.movement-image-card {
+    background: #FCFBF8;
+    border: 1.5px solid #E5E0D6;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.movement-card-title {
+    background: #EDE5D0;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #1E252B;
+    padding: 6px 10px;
+    border-bottom: 1px solid #D1CBBE;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.movement-image-frame {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    min-height: 200px;
+    max-height: 360px;
+}
+
+.movement-report-img {
+    max-width: 100%;
+    max-height: 340px;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+.movement-placeholder-box {
+    background: #FCFBF8;
+    border: 2px dashed #D1CBBE;
+    border-radius: 10px;
+    padding: 30px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Report Footer */
+.report-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 14px;
+    border-top: 1px solid #E5E0D6;
+    font-size: 0.72rem;
+    color: #9A9590;
+    margin-top: 20px;
+}
+
+.report-footer-brand {
+    font-family: var(--font-mono);
+    color: #816838;
+    font-weight: 600;
+}
+
+/* ==========================================================================
+   Print Optimization Media Query
+   ========================================================================== */
+@media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background: #FFFFFF !important;
+        color: #000000 !important;
+    }
+
+    .app-header,
+    .dashboard-header,
+    .toolbar-wrap,
+    .wizard-nav,
+    .no-print,
+    .toast-container,
+    .modal-backdrop {
+        display: none !important;
+    }
+
+    .report-document {
+        box-shadow: none !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
+    .report-page {
+        page-break-after: always !important;
+        break-after: page !important;
+        border-bottom: none !important;
+        padding: 10mm 12mm !important;
+        min-height: auto !important;
+        height: 100vh !important;
+    }
+
+    .movement-pictures-report-container {
+        margin: 6px 0 10px 0 !important;
+    }
+    .movement-image-card {
+        border-color: #CBD5E1 !important;
+        background: #FCFBF8 !important;
+    }
+    .movement-card-title {
+        background: #EDE5D0 !important;
+        font-size: 0.68rem !important;
+        padding: 4px 8px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .movement-image-frame {
+        padding: 6px !important;
+        min-height: 180px !important;
+        max-height: 320px !important;
+    }
+    .movement-report-img {
+        max-height: 300px !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    @page {
+        size: A4 portrait;
+        margin: 8mm 8mm 8mm 8mm;
+    }
+}
