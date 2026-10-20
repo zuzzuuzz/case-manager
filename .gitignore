@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environments
+venv/
+.venv/
+env/
+
+# Databases & Runtime State
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+data/public_url.txt
+data/backups/
+!data/.gitkeep
+
+# Executables & Binaries (Cloudflare tunnel binary, etc.)
+bin/*.exe
+*.exe
+*.dll
+*.so
+*.dylib
+!bin/.gitkeep
+
+# Uploads & User Generated Content
+uploads/*
+!uploads/.gitkeep
+
+# Environment & Secrets
+.env
+.env.*
+!.env.example
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Logs
+*.log
+logs/
